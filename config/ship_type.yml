@@ -1,0 +1,15 @@
+:aircraft_carrier:
+  :name: Aircraft carrier
+  :size: 5
+:battleship:
+  :name: Battleship
+  :size: 4
+:submarine:
+  :name: Submarine
+  :size: 3
+:destroyer:
+  :name: destroyer
+  :size: 3
+:patrol_boat:
+  :name: patrol boat
+  :size: 2
