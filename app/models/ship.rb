@@ -14,6 +14,10 @@ module Battleship
           position.move distance, direction
         end
       end
+
+      def placed?
+        false
+      end
     end
   end
 end

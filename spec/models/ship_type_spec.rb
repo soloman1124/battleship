@@ -25,6 +25,17 @@ module Battleship
 
       its(:name) { should == 'Battleship' }
       its(:size) { should == 4}
+
+      describe '.all' do
+        it 'returns required ship types' do
+          available_ship_type_keys = [
+            :aircraft_carrier, :battleship, :submarine,
+            :destroyer, :patrol_boat
+          ]
+
+          expect(ShipType.all.keys).to match_array available_ship_type_keys
+        end
+      end
     end
   end
 end
