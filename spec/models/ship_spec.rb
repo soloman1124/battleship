@@ -10,7 +10,6 @@ module Battleship
 
       subject { Ship.new ship_type, position, direction }
 
-
       describe '#place_on' do
         context 'when placed correctly on the board' do
           it { expect(subject.place_on board).to be(subject) }
@@ -115,6 +114,32 @@ module Battleship
           let(:position) { Position.new 0, 2 }
 
           it { expect(subject.collide_with? other_ship).to be_false }
+        end
+      end
+
+      describe '#destroyed?' do
+        before { subject.place_on board }
+
+        context 'when all occupied positions are attacked' do
+          before {
+            subject.occupied_positions.each do |position|
+              board.attack position
+            end
+          }
+
+          it { expect(subject.destroyed?).to be_true }
+        end
+
+        context 'when some occupied positions are attacked' do
+          before {
+            board.attack subject.occupied_positions.first
+          }
+
+          it { expect(subject.destroyed?).to be_false }
+        end
+
+        context 'when none of occupied positions are attacked' do
+          it { expect(subject.destroyed?).to be_false }
         end
       end
     end

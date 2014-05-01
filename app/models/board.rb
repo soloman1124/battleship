@@ -4,6 +4,13 @@ module Battleship
       BOUNDS = Bounds.new 10, 10
       GAME_FILE = 'config/game.yml'
 
+      def attack position
+        raise InvalidAttackError unless bounds.cover? position
+        attacked_positions << position
+
+        AttackResult.new ship_at position
+      end
+
       def place ship
         raise InvalidShipPlacementError unless valid_placement? ship
         ships << ship
@@ -28,7 +35,21 @@ module Battleship
         ships.clear
       end
 
+      def destroyed? ship
+        (ship.occupied_positions - attacked_positions).empty?
+      end
+
       private
+
+      def ship_at position
+        ships.find do |ship|
+          ship.occupied_positions.include? position
+        end
+      end
+
+      def attacked_positions
+        @attacked_positions ||= []
+      end
 
       def ships
         @ships ||= []

@@ -22,12 +22,20 @@ module Battleship
       end
 
       def placed?
-        @board
+        board
+      end
+
+      def destroyed?
+        board.destroyed? self if placed?
       end
 
       def collide_with? other_ship
         (occupied_positions & other_ship.occupied_positions).any?
       end
+
+      private
+
+      attr_reader :board
     end
   end
 end

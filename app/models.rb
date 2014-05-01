@@ -9,5 +9,6 @@ module Battleship
 
     class InvalidShipPlacementError < StandardError; end
     class InvalidShipTypeError < StandardError; end
+    class InvalidAttackError < StandardError; end
   end
 end
