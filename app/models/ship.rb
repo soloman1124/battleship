@@ -15,8 +15,18 @@ module Battleship
         end
       end
 
+      def place_on board
+        @board ||= board.place self
+
+        self
+      end
+
       def placed?
-        false
+        @board
+      end
+
+      def collide_with? other_ship
+        (occupied_positions & other_ship.occupied_positions).any?
       end
     end
   end

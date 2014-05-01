@@ -26,6 +26,10 @@ module Battleship
       def hash
         [x, y].hash
       end
+
+      def to_s
+        "(#{x}, #{y})"
+      end
     end
   end
 end
