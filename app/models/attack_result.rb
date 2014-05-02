@@ -14,6 +14,14 @@ module Battleship
       def ship_destroyed?
         attacked_ship.try :destroyed?
       end
+
+      def as_json *opt
+        {
+          attacked_ship: attacked_ship,
+          missed: missed?,
+          ship_destroyed: ship_destroyed?
+        }
+      end
     end
   end
 end

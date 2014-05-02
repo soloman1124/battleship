@@ -33,6 +33,10 @@ module Battleship
         (occupied_positions & other_ship.occupied_positions).any?
       end
 
+      def as_json *opt
+        type.name
+      end
+
       private
 
       attr_reader :board

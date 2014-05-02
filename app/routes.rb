@@ -3,8 +3,7 @@ module Battleship
     autoload :Assets, 'app/routes/assets'
     autoload :Base, 'app/routes/base'
     autoload :Static, 'app/routes/static'
-
-    # Other routes:
-    # autoload :Posts, 'app/routes/posts'
+    autoload :Game, 'app/routes/game'
+    autoload :Index, 'app/routes/index'
   end
 end

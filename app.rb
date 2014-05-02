@@ -33,13 +33,6 @@ module Battleship
       disable :static
 
       set :erb, escape_html: true
-
-      set :sessions,
-          httponly: true,
-          secure: production?,
-          secure: false,
-          expire_after: 5.years,
-          secret: ENV['SESSION_SECRET']
     end
 
     use Rack::Deflater
@@ -47,12 +40,14 @@ module Battleship
 
     use Routes::Static
 
+    use Rack::Session::Cookie, :key => "rack.session"
+
     unless settings.production?
       use Routes::Assets
     end
 
-    # Other routes:
-    # use Routes::Posts
+    use Routes::Game
+    use Routes::Index
   end
 end
 

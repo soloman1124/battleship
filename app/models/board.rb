@@ -1,3 +1,5 @@
+require 'set'
+
 module Battleship
   module Models
     class Board
@@ -13,6 +15,7 @@ module Battleship
 
       def place ship
         raise InvalidShipPlacementError unless valid_placement? ship
+        ship.instance_variable_set :@board, self
         ships << ship
 
         self
@@ -33,10 +36,18 @@ module Battleship
 
       def reset
         ships.clear
+        attacked_positions.clear
       end
 
       def destroyed? ship
-        (ship.occupied_positions - attacked_positions).empty?
+        (ship.occupied_positions - attacked_positions.to_a).empty?
+      end
+
+      def as_json *opt
+        {
+          bounds: bounds,
+          attacked_positions: attacked_positions,
+        }
       end
 
       private
@@ -48,7 +59,7 @@ module Battleship
       end
 
       def attacked_positions
-        @attacked_positions ||= []
+        @attacked_positions ||= Set.new
       end
 
       def ships

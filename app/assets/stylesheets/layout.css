@@ -1,0 +1,9 @@
+#battleship {
+  margin: auto;
+  width: 400px;
+}
+
+#battleship svg {
+  width: 100%;
+  height: 100%;
+}

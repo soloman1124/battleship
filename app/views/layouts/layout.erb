@@ -5,9 +5,9 @@
   <title>Battleship</title>
 
   <link rel="stylesheet" type="text/css" href="<%= asset_path 'layout.css' %>">
-  <script src="<%= asset_path 'layout.js' %>"></script>
-
-  <%== yield_content :head %>
+  <script src="<%= asset_path 'd3.min.js' %>"></script>
+  <script src="<%= asset_path 'jquery-2.1.0.min.js' %>"></script>
+  <script src="<%= asset_path 'app.js' %>"></script>
 </head>
 <body>
   <%== yield %>
