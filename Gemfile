@@ -20,8 +20,6 @@ gem 'closure-compiler'
 gem 'yui-compressor'
 gem 'coffee-script'
 gem 'eco'
-gem 'stylus'
-gem 'stylus-source', '0.31.0'
 gem 'dalli'
 gem 'memcachier'
 

@@ -1,5 +1,4 @@
 require 'sprockets'
-require 'stylus/sprockets'
 
 module Battleship
   module Extensions
@@ -23,8 +22,6 @@ module Battleship
         assets.append_path('app/assets/images')
         assets.append_path('vendor/assets/javascripts')
         assets.append_path('vendor/assets/stylesheets')
-
-        Stylus.setup(assets)
 
         app.set :asset_host, ''
 

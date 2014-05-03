@@ -72,10 +72,6 @@ GEM
       tilt (~> 1.1, != 1.3.0)
     sprockets-memcache-store (0.0.1)
       dalli
-    stylus (1.0.1)
-      execjs
-      stylus-source
-    stylus-source (0.31.0)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -115,8 +111,6 @@ DEPENDENCIES
   sinatra-contrib!
   sprockets
   sprockets-memcache-store
-  stylus
-  stylus-source (= 0.31.0)
   thin
   uglifier
   unicorn
