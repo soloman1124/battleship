@@ -8,10 +8,16 @@ var Battleship = (function() {
         message: svg.select('#message'),
         messageBar: svg.select('#message-bar'),
         restartButton: svg.select('#btn-restart'),
+        randomButton: svg.select('#btn-random'),
         ptWidth: 56,
         ptMargin: 8,
         boardMarginTop: 30,
-        boardMarginLeft: 10
+        boardMarginLeft: 10,
+        pt_class_map: {
+          'missed': '#pt-miss',
+          'hit': '#pt-hit',
+          'ship_destroyed': '#pt-destroy',
+        }
       };
     },
 
@@ -22,15 +28,8 @@ var Battleship = (function() {
     },
 
     initControls: function() {
-      s.restartButton
-        .style('cursor', 'pointer')
-        .on('mouseenter', function(){
-          d3.select(this).transition().duration(300).attr('fill', '#157DFB');
-        })
-        .on('mouseleave', function(){
-          d3.select(this).transition().duration(300).attr('fill', '#4A4A4A');
-        })
-        .on('click', this.restart);
+      this.setButtonStyle(s.restartButton).on('click', this.restart);
+      this.setButtonStyle(s.randomButton).on('click', this.random);
     },
 
     render: function() {
@@ -40,8 +39,8 @@ var Battleship = (function() {
             Battleship.setBoardPt(i, j);
           }
         }
-        $.each(data.attacked_positions, function(index, value){
-          Battleship.setPt('#pt-miss', value.x, value.y);
+        $.each(data.positions_status, function(index, value) {
+          Battleship.setPt(s.pt_class_map[value.status], value.x, value.y);
         });
       });
     },
@@ -72,8 +71,7 @@ var Battleship = (function() {
     fire: function(x, y) {
       var fireFunction = function() {
         Api.attack(x, y, function(data) {
-          var type = data.missed ? '#pt-miss' : '#pt-hit';
-          Battleship.setPt(type, x, y);
+          Battleship.attackUpdate(x, y, data);
           Battleship.attackMessage(data);
         });
       };
@@ -81,12 +79,24 @@ var Battleship = (function() {
       return fireFunction;
     },
 
+    attackUpdate: function(x, y, attackResult) {
+      Battleship.setPt(s.pt_class_map[attackResult.position_status], x, y);
+      if(attackResult.position_status == 'ship_destroyed') {
+        $.each(
+          attackResult.ship_destroyed.occupied_positions,
+          function(index, value) {
+            Battleship.setPt(s.pt_class_map.ship_destroyed, value.x, value.y);
+          }
+        );
+      }
+    },
+
     attackMessage: function(attackResult) {
       this.flashMessageBar();
-      if(attackResult.missed) {
+      if(attackResult.position_status == 'missed') {
         s.message.text('You missed!!!');
-      } else if(attackResult.ship_destroyed) {
-        s.message.text('You destroyed a ' + attackResult.attacked_ship);
+      } else if(attackResult.position_status == 'ship_destroyed') {
+        s.message.text('You destroyed a ' + attackResult.ship_destroyed.name);
       } else {
         s.message.text('You hit something!!!');
       }
@@ -94,6 +104,12 @@ var Battleship = (function() {
 
     restart: function() {
       Api.restart(function(){
+        Battleship.render();
+      });
+    },
+
+    random: function() {
+      Api.random(function(){
         Battleship.render();
       });
     },
@@ -120,6 +136,16 @@ var Battleship = (function() {
       return animateFunction;
     },
 
+    setButtonStyle: function(button) {
+      return button.style('cursor', 'pointer')
+        .on('mouseenter', function(){
+          d3.select(this).transition().duration(300).attr('fill', '#157DFB');
+        })
+        .on('mouseleave', function(){
+          d3.select(this).transition().duration(300).attr('fill', '#4A4A4A');
+        });
+    },
+
     scaleTransform: function(scale, x, y, width) {
       _x = -(x + width / 2) * (scale - 1);
       _y = -(y + width / 2) * (scale - 1);
@@ -132,10 +158,10 @@ var Battleship = (function() {
 
       s.messageBar
         .transition()
-        .duration(500)
+        .duration(300)
         .attr('fill', 'red')
         .transition()
-        .duration(500)
+        .duration(200)
         .attr('fill', oldColor);
     }
   };

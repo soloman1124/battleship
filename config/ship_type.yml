@@ -8,8 +8,8 @@
   :name: Submarine
   :size: 3
 :destroyer:
-  :name: destroyer
+  :name: Destroyer
   :size: 3
 :patrol_boat:
-  :name: patrol boat
+  :name: Patrol boat
   :size: 2

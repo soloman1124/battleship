@@ -34,7 +34,10 @@ module Battleship
       end
 
       def as_json *opt
-        type.name
+        {
+          name: type.name,
+          occupied_positions: occupied_positions,
+        }
       end
 
       private

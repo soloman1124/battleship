@@ -6,6 +6,7 @@ module Battleship
     autoload :Position, 'app/models/position'
     autoload :Ship, 'app/models/ship'
     autoload :ShipType, 'app/models/ship_type'
+    autoload :BoardLoader, 'app/models/board_loader'
 
     class InvalidShipPlacementError < StandardError; end
     class InvalidShipTypeError < StandardError; end

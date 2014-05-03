@@ -4,12 +4,10 @@ module Battleship
   module Models
     class Board
       BOUNDS = Bounds.new 10, 10
-      GAME_FILE = 'config/game.yml'
 
       def attack position
         raise InvalidAttackError unless bounds.cover? position
-        attacked_positions << position
-        status = position_status position
+        status = attack_and_update position
 
         if status == :ship_destroyed
           AttackResult.new status, ship_at(position)
@@ -26,22 +24,9 @@ module Battleship
         self
       end
 
-      def load game_file = GAME_FILE
-        reset
-        YAML.load_file(game_file).each do |ship_hash|
-          position = Position.new *ship_hash[:position].values_at(:x, :y)
-
-          place Ship.new(
-            ship_hash.fetch(:ship_type), position, ship_hash.fetch(:direction)
-          )
-        end
-
-        self
-      end
-
       def reset
-        ships.clear
         attacked_positions.clear
+        positions_status.clear
       end
 
       def destroyed? ship
@@ -51,7 +36,9 @@ module Battleship
       def as_json *opt
         {
           bounds: bounds,
-          positions_status: positions_status,
+          positions_status: positions_status.map do |pos, status|
+            {x: pos.x, y: pos.y, status: status}
+          end
         }
       end
 
@@ -65,19 +52,30 @@ module Battleship
         @positions_status ||= Hash.new
       end
 
-      def position_status position
-        return unless attacked_positions.include? position
-
-        positions_status.fetch position do
-          ship = ship_at position
-          positions_status[position] = if ship.nil?
-            :missed
-          elsif ship.destroyed?
-            :ship_destroyed
-          else
-            :hit
-          end
+      def ship_attacked_status ship
+        if ship.nil?
+          :missed
+        elsif ship.destroyed?
+          :ship_destroyed
+        else
+          :hit
         end
+      end
+
+      def attack_and_update position
+        attacked_positions << position
+        ship = ship_at position
+        status = ship_attacked_status ship
+
+        if status == :ship_destroyed
+          ship.occupied_positions.each do |pos|
+            positions_status[pos] = :ship_destroyed
+          end
+        else
+          positions_status[position] = status
+        end
+
+        status
       end
 
       def ship_at position

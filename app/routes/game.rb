@@ -12,15 +12,20 @@ module Battleship
       end
 
       get '/game/reset' do
+        json board.reset
+      end
+
+
+      get '/game/random' do
         session[:board] = nil
 
-        json board.load
+        json board :random
       end
 
       private
 
-      def board
-        session[:board] ||= Board.new.load
+      def board strategy = nil
+        session[:board] ||= BoardLoader.new_board strategy: strategy
       end
     end
   end

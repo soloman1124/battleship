@@ -3,10 +3,8 @@ require 'spec_helper'
 module Battleship
   module Models
     describe Board do
-      subject(:board) { Board.new }
-
       describe '#attack' do
-        before { subject.load }
+        subject(:board) { BoardLoader.new_board }
 
         context 'when attack ouside of the board' do
           let(:position) { Position.new -1, -2 }
@@ -48,6 +46,8 @@ module Battleship
       end
 
       describe '#place' do
+        subject(:board) { Board.new }
+
         let(:ship_position) { Position.new 0, 0 }
         let(:ship) { Ship.new :battleship, ship_position, :horizontal }
 
@@ -75,33 +75,6 @@ module Battleship
           it {
             expect { subject.place ship }
               .to raise_exception(InvalidShipPlacementError)
-          }
-        end
-      end
-
-      describe '#load' do
-        context 'when with valid game config file' do
-          it { expect(subject.load).to be(subject) }
-        end
-
-        context 'when with invalid ship placement in game config file' do
-          let(:invalid_placement_game) {
-            'spec/files/invalid_placement_game.yml'
-          }
-
-          it {
-            expect { subject.load invalid_placement_game }
-              .to raise_exception(InvalidShipPlacementError)
-          }
-        end
-
-        context 'when with invalid format in game config file' do
-          let(:invalid_format_game) {
-            'spec/files/invalid_format_game.yml'
-          }
-
-          it {
-            expect { subject.load invalid_placement_game }.to raise_exception
           }
         end
       end

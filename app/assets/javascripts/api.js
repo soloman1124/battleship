@@ -23,6 +23,10 @@ var Api = (function() {
       $.get(this.path('reset'), callback);
     },
 
+    random: function(callback) {
+      $.get(this.path('random'), callback);
+    },
+
     path: function(path) {
       if(path) {
         return s.apiBase + '/' + path;
