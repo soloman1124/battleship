@@ -9,8 +9,13 @@ module Battleship
       def attack position
         raise InvalidAttackError unless bounds.cover? position
         attacked_positions << position
+        status = position_status position
 
-        AttackResult.new ship_at position
+        if status == :ship_destroyed
+          AttackResult.new status, ship_at(position)
+        else
+          AttackResult.new status
+        end
       end
 
       def place ship
@@ -46,20 +51,39 @@ module Battleship
       def as_json *opt
         {
           bounds: bounds,
-          attacked_positions: attacked_positions,
+          positions_status: positions_status,
         }
       end
 
       private
 
+      def attacked_positions
+        @attacked_positions ||= Set.new
+      end
+
+      def positions_status
+        @positions_status ||= Hash.new
+      end
+
+      def position_status position
+        return unless attacked_positions.include? position
+
+        positions_status.fetch position do
+          ship = ship_at position
+          positions_status[position] = if ship.nil?
+            :missed
+          elsif ship.destroyed?
+            :ship_destroyed
+          else
+            :hit
+          end
+        end
+      end
+
       def ship_at position
         ships.find do |ship|
           ship.occupied_positions.include? position
         end
-      end
-
-      def attacked_positions
-        @attacked_positions ||= Set.new
       end
 
       def ships

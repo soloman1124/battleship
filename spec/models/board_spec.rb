@@ -20,21 +20,17 @@ module Battleship
         context 'when attack missed' do
           let(:position) { Position.new 0, 0 }
 
-          it { expect(subject.attack(position).missed?).to be_true }
+          it { expect(subject.attack(position).position_status).to be :missed }
 
-          it { expect(subject.attack(position).ship_destroyed?).to be_false }
-
-          it { expect(subject.attack(position).attacked_ship).to be_nil }
+          it { expect(subject.attack(position).ship_destroyed).to be_nil }
         end
 
         context 'when attack hit part of a ship' do
           let(:position) { Position.new 2, 1 }
 
-          it { expect(subject.attack(position).missed?).to be_false }
+          it { expect(subject.attack(position).position_status).to be :hit }
 
-          it { expect(subject.attack(position).ship_destroyed?).to be_false }
-
-          it { expect(subject.attack(position).attacked_ship).to_not be_nil }
+          it { expect(subject.attack(position).ship_destroyed).to be_nil }
         end
 
         context 'when attack destroyed entire ship' do
@@ -42,11 +38,12 @@ module Battleship
 
           let(:position) { Position.new 2, 8 }
 
-          it { expect(subject.attack(position).missed?).to be_false }
+          it {
+            expect(subject.attack(position).position_status)
+              .to be :ship_destroyed
+          }
 
-          it { expect(subject.attack(position).ship_destroyed?).to be_true }
-
-          it { expect(subject.attack(position).attacked_ship).to_not be_nil }
+          it { expect(subject.attack(position).ship_destroyed).to_not be_nil }
         end
       end
 
