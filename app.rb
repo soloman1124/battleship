@@ -3,8 +3,8 @@ require 'bundler'
 
 # Setup load paths
 Bundler.require
-$LOAD_PATH << File.expand_path('../', __FILE__)
-$LOAD_PATH << File.expand_path('../lib', __FILE__)
+$: << File.expand_path('../', __FILE__)
+$: << File.expand_path('../lib', __FILE__)
 
 require 'dotenv'
 Dotenv.load
@@ -37,13 +37,10 @@ module Battleship
 
     use Rack::Deflater
     use Rack::Standards
-
     use Routes::Static
-
-    use Rack::Session::Cookie, key: 'rack.session'
-
-    use Routes::Assets unless settings.production?
-
+    use Rack::Session::Cookie,
+        key: 'rack.session', secret: 'somethingverysecret1234'
+    use Routes::Assets
     use Routes::Game
     use Routes::Index
   end

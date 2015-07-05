@@ -8,6 +8,7 @@ AllCops:
     - app/extensions/*
     - app/routes/*
     - lib/tasks/*
+    - app.rb
 
 Documentation:
   Enabled: false
