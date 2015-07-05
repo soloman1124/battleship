@@ -1,3 +1,5 @@
+[![Docker Repository on Quay.io](https://quay.io/repository/soloman1124/battleship/status "Docker Repository on Quay.io")](https://quay.io/repository/soloman1124/battleship)
+[![Codacy Badge](https://www.codacy.com/project/badge/471e1ecbaf744ca88f2d78608e58a911)](https://www.codacy.com/app/soloman1124/battleship)
 [![Code Climate](https://codeclimate.com/github/soloman1124/battleship/badges/gpa.svg)](https://codeclimate.com/github/soloman1124/battleship)
 
 # Battleship
