@@ -1,4 +1,4 @@
-worker_processes Integer(ENV['UNICORN_WORKERS'] || 4)
+worker_processes Integer(ENV['UNICORN_WORKERS'] || 3)
 timeout 30
 preload_app true
 listen(ENV['PORT'] || 3000, :backlog => Integer(ENV['UNICORN_BACKLOG'] || 200))
@@ -12,6 +12,6 @@ end
 
 after_fork do |server, worker|
   Signal.trap 'TERM' do
-    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to sent QUIT'
+    puts 'Unicorn worker intercepting TERM. Wait for master to sent QUIT'
   end
 end
