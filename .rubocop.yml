@@ -1,0 +1,19 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - !ruby/regexp /old_and_unused\.rb$/
+    - spec/**/*
+    - app/extensions/*
+    - app/routes/*
+    - lib/tasks/*
+
+Documentation:
+  Enabled: false
+ModuleFunction:
+  Enabled: false
+MethodDefParentheses:
+  Enabled: false
+EmptyLiteral:
+  Enabled: false

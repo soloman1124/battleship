@@ -11,13 +11,15 @@ module Battleship
       end
 
       def self.find key
-        all[key] || raise(InvalidShipTypeError)
+        all[key] || fail(InvalidShipTypeError)
       end
 
       def self.all
-        @all ||= YAML.load_file(CONFIG_FILE).
-          each_with_object({}) do |(key, type), hash|
-            hash[key] = new *type.values_at(:name, :size)
+        @all ||=
+          YAML
+          .load_file(CONFIG_FILE)
+          .each_with_object({}) do |(key, type), hash|
+            hash[key] = new(*type.values_at(:name, :size))
           end
       end
     end

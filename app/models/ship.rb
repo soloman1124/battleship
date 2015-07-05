@@ -33,10 +33,10 @@ module Battleship
         (occupied_positions & other_ship.occupied_positions).any?
       end
 
-      def as_json *opt
+      def as_json *_opt
         {
           name: type.name,
-          occupied_positions: occupied_positions,
+          occupied_positions: occupied_positions
         }
       end
 

@@ -6,7 +6,7 @@ module Battleship
       BOUNDS = Bounds.new 10, 10
 
       def attack position
-        raise InvalidAttackError unless bounds.cover? position
+        fail InvalidAttackError unless bounds.cover? position
         status = attack_and_update position
 
         if status == :ship_destroyed
@@ -17,7 +17,7 @@ module Battleship
       end
 
       def place ship
-        raise InvalidShipPlacementError unless valid_placement? ship
+        fail InvalidShipPlacementError unless valid_placement? ship
         ship.instance_variable_set :@board, self
         ships << ship
 
@@ -33,11 +33,11 @@ module Battleship
         (ship.occupied_positions - attacked_positions.to_a).empty?
       end
 
-      def as_json *opt
+      def as_json *_opt
         {
           bounds: bounds,
           positions_status: positions_status.map do |pos, status|
-            {x: pos.x, y: pos.y, status: status}
+            { x: pos.x, y: pos.y, status: status }
           end
         }
       end
@@ -62,6 +62,7 @@ module Battleship
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
       def attack_and_update position
         attacked_positions << position
         ship = ship_at position
@@ -77,6 +78,7 @@ module Battleship
 
         status
       end
+      # rubocop:enable Metrics/MethodLength
 
       def ship_at position
         ships.find do |ship|
