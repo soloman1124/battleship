@@ -25,5 +25,6 @@ gem 'memcachier'
 
 group :development do
   gem 'thin'
+  gem 'rubocop'
   gem 'rspec', '~> 2.14.1'
 end

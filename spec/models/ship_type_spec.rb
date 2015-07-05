@@ -24,7 +24,7 @@ module Battleship
       subject { ShipType.find :battleship }
 
       its(:name) { should == 'Battleship' }
-      its(:size) { should == 4}
+      its(:size) { should == 4 }
 
       describe '.all' do
         it 'returns required ship types' do

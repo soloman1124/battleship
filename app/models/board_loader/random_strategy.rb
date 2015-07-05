@@ -23,11 +23,12 @@ module Battleship
 
         def random_ship board
           type = ShipType.all.keys.sample
-          position = Position.new *(0...100).to_a.sample.divmod(10)
+          position = Position.new(*(0...100).to_a.sample.divmod(10))
           direction = [:vertial, :horizontal].sample
 
           Ship.new(type, position, direction).place_on board
         rescue
+          nil
         end
       end
     end

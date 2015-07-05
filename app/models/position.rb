@@ -14,7 +14,7 @@ module Battleship
         elsif direction == :horizontal
           Position.new x, y + distance
         else
-          raise ArgumentError
+          fail ArgumentError
         end
       end
 

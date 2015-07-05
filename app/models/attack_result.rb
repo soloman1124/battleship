@@ -8,7 +8,7 @@ module Battleship
         @ship_destroyed = ship_destroyed
       end
 
-      def as_json *opt
+      def as_json *_opt
         {
           position_status: position_status,
           ship_destroyed: ship_destroyed

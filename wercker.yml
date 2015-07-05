@@ -3,5 +3,8 @@ build:
   steps:
     - bundle-install
     - script:
-        name: rspec
+        name: rspec test
         code: bundle exec rake spec
+    - script:
+        name: code quality
+        code: rubocop
