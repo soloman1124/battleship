@@ -1,4 +1,5 @@
 require 'sprockets'
+require 'sprockets/cache/memcache_store'
 
 module Battleship
   module Extensions
