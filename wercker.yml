@@ -1,15 +1,15 @@
-box: ruby:1.9.3
+box: wercker/rvm
+services:
+  - wercker/postgresql
 build:
   steps:
+    - script:
+        name: install ruby version
+        code: rvm install ruby-2.1.2
     - bundle-install
     - script:
         name: rspec test
         code: bundle exec rake spec
     - script:
         name: code quality
-        code: rubocop
-    - heroku-deploy:
-        key: $HEROKU_KEY
-        key-name: $HEROKU_KEY_PAIR
-        user: $HEROKU_USER
-        app-name: $HEROKU_APP_NAME
+        code: bundle exec rubocop
