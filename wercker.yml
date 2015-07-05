@@ -8,3 +8,7 @@ build:
     - script:
         name: code quality
         code: rubocop
+    - heroku-deploy:
+        key: $HEROKU_KEY
+        user: $HEROKU_USER
+        app-name: $HEROKU_APP_NAME
