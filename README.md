@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/soloman1124/battleship/badges/gpa.svg)](https://codeclimate.com/github/soloman1124/battleship)
+
 # Battleship
 
 http://soloman-battleship.herokuapp.com
