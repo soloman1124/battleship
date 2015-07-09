@@ -18,7 +18,7 @@ module Battleship
         context 'when attack missed' do
           let(:position) { Position.new 0, 0 }
 
-          it { expect(subject.attack(position).position_status).to be :not_missed }
+          it { expect(subject.attack(position).position_status).to be :missed }
 
           it { expect(subject.attack(position).ship_destroyed).to be_nil }
         end
