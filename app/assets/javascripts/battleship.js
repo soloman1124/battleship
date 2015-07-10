@@ -94,7 +94,7 @@ var Battleship = (function() {
     attackMessage: function(attackResult) {
       this.flashMessageBar();
       if(attackResult.position_status == 'missed') {
-        s.message.text('You have missed it!!!');
+        s.message.text('You missed it!!!');
       } else if(attackResult.position_status == 'ship_destroyed') {
         s.message.text('You destroyed a ' + attackResult.ship_destroyed.name);
       } else {

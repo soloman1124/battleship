@@ -7,7 +7,7 @@ module Battleship
 
       subject(:result) { AttackResult.new :missed, ship }
 
-      its(:position_status) { should be :missed }
+      its(:position_status) { should be :missedx }
       its(:ship_destroyed) { should be ship }
     end
   end
